@@ -16,6 +16,12 @@ jobs:
       run: |
         echo "github.sha=$GITHUB_SHA"
         docker build -t tyleracr1.azurecr.io/azurefunctionsimage:${{ github.sha }} .
+        
+    - uses: azure/login@v1
+      with:
+        creds: ${{ secrets.AZURE_CREDENTIALS }}
+        
+    - run: az acr login -n tyleracr1
 
     - uses: Azure/container-scan@v0 
       name: Scan image for vulnerabilities
